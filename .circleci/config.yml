@@ -11,14 +11,14 @@ jobs:
           name: show current branch 
           command: echo ${CURRENT_BRANCH}
       - restore_cache:
-          keys: 
+          key: 
             - app-{{ checksum "package.json" }}
             - app
       - run:
           name: Install dependencies
           command: npm install
       - save_cache:
-          keys: dependency-cache-{{ checksum "package.json" }}
+          key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - node_modules
       - run:
@@ -52,13 +52,7 @@ jobs:
           command: |
           if ["${CURRENT_BRANCH}"=="master" ]
           then 
-          - aws-s3/sync:
-          aws-access-key-id: ${AWS_ACCESS_KEY_ID}
-          aws-region: us-east-1
-          aws-secret-access-key: ${AWS_SECRET_ACCESS_KEY}
-          from: ~/ZOHAIB-APP/build
-          to: 's3://zohaibcircleci 
-          --delete 
+              aws --region us-east-1 s3 sync ~/ZOHAIB-APP/build s3://zohaibcircleci --delete
   deploy-to-aws-cloudfront:
     docker:
       - image: circle/node
@@ -91,24 +85,25 @@ jobs:
 workflows:
   build_and_deploy:
     jobs:
-      - build 
+      - build
       - deploy-to-aws-s3:
          requires:
           - build
+         filters:
+           branches:
+             only: 
+               - master
+workflows:
+  build_and_deploy:
+    jobs:
+      - build
       - deploy-to-aws-s3:
-          - AWS
-         filters:
-           branches:
-             only: 
-               - master
-      - deploy-to-aws-cloudfront:
          requires:
-          - deploy-to-aws-s3
+          - build
          filters:
            branches:
              only: 
                - master
-
  
 
  
