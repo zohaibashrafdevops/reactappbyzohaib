@@ -26,7 +26,7 @@ jobs:
           command: npm run build  
   deploy-to-aws-s3:
     docker:
-      - image: circle/node
+      - image: circleci/node:13.14.0
     steps:
       - checkout
       - run:
@@ -55,7 +55,7 @@ jobs:
               aws --region us-east-1 s3 sync ~/ZOHAIB-APP/build s3://zohaibcircleci --delete
   deploy-to-aws-cloudfront:
     docker:
-      - image: circle/node
+      - image: circleci/node:13.14.0
     steps:
       - checkout
       - run:
