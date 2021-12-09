@@ -43,9 +43,8 @@ jobs:
             pip install --upgrade pip \
             awscli==1.14.37
              # Login to ecr and docker login
-            aws_login=`aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 489994096722.dkr.ecr.us-east-1.amazonaws.com`
-            eval $aws_login
-            aws s3 sync build/ s3://zohaibcircleci
+            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 489994096722.dkr.ecr.us-east-1.amazonaws.com
+            aws s3 sync ZOHAIB-APP/ s3://zohaibcircleci
   deploy-production:
     docker:
       - image: docker:17.05.0-ce-git
@@ -60,9 +59,8 @@ jobs:
             py-pip=9.0.0-r1
             pip install --upgrade pip \
             awscli==1.14.37
-            aws_login=`aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 489994096722.dkr.ecr.us-east-1.amazonaws.com`
-            eval $aws_login
-            aws s3 sync build/ s3://circleci
+            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 489994096722.dkr.ecr.us-east-1.amazonaws.com
+            aws s3 sync ZOHAIB-APP/ s3://circleci
 workflows:
   version: 2
   build-test-and-deploy:
