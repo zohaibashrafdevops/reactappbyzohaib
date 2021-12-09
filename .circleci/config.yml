@@ -61,6 +61,8 @@ jobs:
             # Login to ecr and docker login
             aws_login=`aws ecr get-login --no-include-email --region us-east-1`
             eval $aws_login
+            aws-access-key-id=${AWS_ACCESS_KEY_ID}
+            aws-secret-access-key=${AWS_SECRET_ACCESS_KEY}
             aws s3 sync build/ s3://circleci
 
 workflows:
@@ -69,6 +71,7 @@ workflows:
     jobs:
       - build
       - deploy-test:
+          context: AWS
           requires:
             - build
           filters:
