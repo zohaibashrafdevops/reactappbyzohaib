@@ -1,7 +1,5 @@
 # Javascript Node CircleCI 2.0 configuration file
 version: 2
-orbs:
-  aws-s3: circleci/aws-s3@3.0
 jobs:
   build:
     docker:
