@@ -52,13 +52,13 @@ jobs:
           command: |
           if ["${CURRENT_BRANCH}"=="master" ]
           then 
-              aws --region us-east-1 s3 sync ~/ZOHAIB-APP/build s3://zohaibcircleci --delete
           - aws-s3/sync:
           aws-access-key-id: ${AWS_ACCESS_KEY_ID}
           aws-region: us-east-1
           aws-secret-access-key: ${AWS_SECRET_ACCESS_KEY}
-          from: bucket
-          to: 's3://my-s3-bucket-name/prefix'
+          from: ~/ZOHAIB-APP/build
+          to: 's3://zohaibcircleci 
+          --delete 
   deploy-to-aws-cloudfront:
     docker:
       - image: circle/node
