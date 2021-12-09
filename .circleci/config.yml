@@ -39,7 +39,7 @@ jobs:
           #Get all pre-requisites
           command: |
             apk add --no-cache \
-              py-pip=9.0.0-r1
+            py-pip=9.0.0-r1
             pip install --upgrade pip \
               awscli==1.14.37
             # Login to ecr and docker login
@@ -56,23 +56,15 @@ jobs:
       - run:
           #Get all pre-requisites
           command: |
-            apk add --no-cache \
-              py-pip=9.0.0-r1
-            pip install --upgrade pip \
-              awscli==1.14.37
-            # Login to ecr and docker login
-            # aws_login=`docker login`
-            # eval $aws_login
-            # aws s3 sync build/ s3://circleci
-            - aws-s3/sync:
-          arguments: |
-            --acl public-read \
-            --cache-control "max-age=86400"
-          aws-access-key-id: $AWS_ACCESS_KEY_ID
-          aws-region: us-east-1
-          aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
-          from: build/
-          to: 's3://zohaibcircleci'
+          apk add --no-cache \
+          py-pip=9.0.0-r1
+          pip install --upgrade pip \
+            awscli==1.14.37
+          Login to ecr and docker login
+          aws_login=`docker login`
+          eval $aws_login
+          aws s3 sync build/ s3://circleci
+         
 
 workflows:
   version: 2
