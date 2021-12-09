@@ -59,10 +59,8 @@ jobs:
             pip install \
               awscli==1.14.37
             # Login to ecr and docker login
-            aws_login=`aws ecr get-login --no-include-email --region us-east-1`
+            aws_login=`docker login`
             eval $aws_login
-            aws-access-key-id=${AWS_ACCESS_KEY_ID}
-            aws-secret-access-key=${AWS_SECRET_ACCESS_KEY}
             aws s3 sync build/ s3://circleci
 
 workflows:
